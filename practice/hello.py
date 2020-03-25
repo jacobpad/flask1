@@ -1,3 +1,4 @@
+# flask --help
 # FLASK_APP=hello.py flask run
 """MINIMAL FLASK APP"""
 
