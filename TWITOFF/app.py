@@ -1,14 +1,14 @@
 from flask import Flask, render_template
 # render_template() automatically looks for a folder called templates to find the files in the decorators
 from .models import DB, User
-
+from decouple import config
 
 def create_app():
     app = Flask(__name__)
 
     # Add a config
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['SQLALCHEMY_DATABASE_URI'] = config('DATABASE_URL')
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False #This code removes an error
     # In terminal: CREATE DATABASE by running 
     # FLASK_APP=TWITOFF:APP flask shell
     # from TWITOFF.models import *
@@ -41,6 +41,12 @@ def create_app():
     def root():
         users = User.query.all()
         return render_template('base.html', title='Home', users=users)
+
+    @app.route('/reset')
+    def reset():
+        DB.drop_all()
+        DB.create_all()
+        return render_template('base.html', title='Rest Database', users=[])
 
 
     return app
