@@ -3,6 +3,7 @@ from flask import Flask, render_template, request
 from .models import DB, User
 from decouple import config
 from .twitter import add_or_update_user
+from .predict import predict_user
 
 def create_app():
     app = Flask(__name__)
@@ -88,9 +89,23 @@ def create_app():
         return render_template('user.html', title=name, tweets=tweets, message=message)
 
 
+    # Route for predictions.
+    @app.route('/compare', methods=['POST'])
+    def compare(message=''):
+        user1, user2 = sorted([request.values['user1'],
+                               request.values['user2']])
+        if user1 == user2:
+            message = 'Cannot compare a user to themselves.'
+        else:
+            prediction = predict_user(user1, user2,
+                                      request.values['tweet_text'])
 
-
-
+            message = '"{}" is more likely to be tweeted by {} than {}.'.format(
+                request.values['tweet_text'], user1 if prediction else user2,
+                user2 if prediction else user1)
+            
+        return render_template('prediction.html', title="Twit's Prediction",
+                               message=message)    
 
 
 
