@@ -15,5 +15,5 @@ class User(DB.Model):
 class Tweet(DB.Model):
     """ The users tweets from twitter """
     id = DB.Column(DB.Integer, primary_key=True)
-    name = DB.Column(DB.Unicode(280))
+    text = DB.Column(DB.Unicode(280))
     

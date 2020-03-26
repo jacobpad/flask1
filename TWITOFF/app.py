@@ -8,6 +8,25 @@ def create_app():
 
     # Add a config
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
+    # In terminal: CREATE DATABASE by running 
+    # FLASK_APP=TWITOFF:APP flask shell
+    # from TWITOFF.models import *
+    # DB.create_all()      ################# WHERE DID CREATE ALL COME FROM???? ##################
+                           ################# https://youtu.be/WgING5oXNKA?t=6216 #################
+    # quit()
+
+
+
+    # Create users within the flask shell
+    # Open shell:
+    # FLASK_APP=TWITOFF:APP flask shell
+    # from TWITOFF.models import *
+    # u1 = User(name='austen') #See user class in models.py
+    # t1 = Tweet(text='wa-hoo!!!!') #See user class in models.py
+    # DB.session.add(u1)
+    # DB.session.add(t1)
+    # DB.session.commit()
+    # quit()
 
     # Connect the database and app
     DB.init_app(app)
