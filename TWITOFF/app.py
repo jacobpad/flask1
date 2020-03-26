@@ -4,6 +4,10 @@ from .models import DB, User
 from decouple import config
 from .twitter import add_or_update_user
 from .predict import predict_user
+from dotenv import load_dotenv
+
+
+load_dotenv()
 
 def create_app():
     app = Flask(__name__)
