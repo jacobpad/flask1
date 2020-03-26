@@ -1,7 +1,8 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 # render_template() automatically looks for a folder called templates to find the files in the decorators
 from .models import DB, User
 from decouple import config
+from .twitter import add_or_update_user
 
 def create_app():
     app = Flask(__name__)
@@ -70,6 +71,37 @@ def create_app():
         # quit()
         # 
         # EXPLAINED: https://youtu.be/2YE6jcy-chg?t=7007
+
+    # Rout to add users or get users
+    @app.route('/user', methods=['POST'])
+    @app.route('/user/<name>', methods=['GET'])
+    def user(name=None, message=''):
+        name = name or request.values['user_name']
+        try:
+            if request.method == 'POST':
+                add_or_update_user(name)
+                message = "User {} successfully added!".format(name)
+            tweets = User.query.filter(User.name == name).one().tweets
+        except Exception as e:
+            message = "Error adding {}: {}".format(name, e)
+            tweets = []
+        return render_template('user.html', title=name, tweets=tweets, message=message)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     return app
