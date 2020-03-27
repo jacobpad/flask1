@@ -18,7 +18,7 @@ def add_or_update_user(username):
         db_user = (User.query.get(twitter_user.id) or
                    User(id=twitter_user.id, name=username))
         DB.session.add(db_user)
-        tweets = twitter_user.timeline(count=200, 
+        tweets = twitter_user.timeline(count=100, 
                                        exclude_replies=True, 
                                        include_rts=False, 
                                        tweet_mode='extended', 
